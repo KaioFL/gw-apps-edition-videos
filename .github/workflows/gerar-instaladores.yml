@@ -6,11 +6,18 @@ name: Gerar instaladores
 
 on:
   workflow_dispatch:
+    inputs:
+      apenas:
+        description: "O que gerar"
+        type: choice
+        default: todos
+        options: [todos, mac-applesilicon, mac-intel, windows]
   push:
     tags: ["v*"]
 
 jobs:
   windows:
+    if: github.event.inputs.apenas == '' || github.event.inputs.apenas == null || github.event.inputs.apenas == 'todos' || github.event.inputs.apenas == 'windows'
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -38,14 +45,12 @@ jobs:
           compression-level: 0
 
   mac:
+    if: github.event.inputs.apenas != 'windows'
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - runner: macos-14          # Apple Silicon (M1, M2, M3, M4...)
-            nome: Mac-AppleSilicon
-          - runner: macos-15-intel    # Macs com processador Intel
-            nome: Mac-Intel
+        # macos-15 = Apple Silicon (M1, M2, M3, M4...); macos-15-intel = Macs com processador Intel
+        include: ${{ fromJSON(github.event.inputs.apenas == 'mac-applesilicon' && '[{"runner":"macos-15","nome":"Mac-AppleSilicon"}]' || github.event.inputs.apenas == 'mac-intel' && '[{"runner":"macos-15-intel","nome":"Mac-Intel"}]' || '[{"runner":"macos-15","nome":"Mac-AppleSilicon"},{"runner":"macos-15-intel","nome":"Mac-Intel"}]') }}
     runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v4
