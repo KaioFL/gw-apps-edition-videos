@@ -1,0 +1,38 @@
+# sobras do Mac
+._*
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+programa/.venv/
+programa/.venv-mac/
+programa/.python/
+programa/.tools/
+programa/.instalado
+
+# leitor de fala (~640 MB; o build baixa sozinho)
+programa/modelos/
+
+# dados de quem usa
+Meus videos/
+programa/_previas/
+programa/avatares/
+programa/logs/
+programa/*.log
+programa/.gw-app.pid
+
+# build do aplicativo
+desktop/.venv-build/
+desktop/build/
+desktop/dist/
+desktop/saida/
+desktop/recursos/bin/
+desktop/recursos/modelo.txt
+desktop/*.log
+
+# dados locais
+programa/estado.json
+programa/historico.json
+programa/musicas/*.mp3
+.claude/

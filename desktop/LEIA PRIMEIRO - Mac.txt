@@ -1,0 +1,21 @@
+GW APPS EDITION VIDEOS — INSTALAR NO MAC
+========================================
+
+1. Arraste o ícone "GW Apps Edition Videos" para a pasta "Aplicativos" (nesta mesma janela).
+2. Abra o programa pela pasta Aplicativos ou pelo Launchpad.
+   Dica: com ele aberto, clique com o botão direito no ícone do Dock >
+   Opções > "Manter no Dock" para abrir com um clique nas próximas vezes.
+
+SE O MAC NÃO DEIXAR ABRIR ("não foi possível verificar o desenvolvedor")
+  - Abra Ajustes do Sistema > Privacidade e Segurança.
+  - Role até o fim e clique em "Abrir Mesmo Assim" ao lado do aviso do
+    GW Apps Edition Videos. Confirme com sua senha. Só precisa fazer isso uma vez.
+  (No macOS 14 ou anterior também funciona: botão direito no app > Abrir > Abrir.)
+
+ONDE FICAM OS ARQUIVOS
+  - Seus vídeos e projetos: pasta Filmes > GW Apps Edition Videos > Meus videos
+  - Vídeos finalizados:     Meus videos > _Prontos
+  - Suas músicas (MP3):     Filmes > GW Apps Edition Videos > Minhas musicas
+
+Tudo é processado no próprio computador. Não precisa instalar mais nada:
+o leitor de fala e o ffmpeg já vêm dentro do aplicativo.

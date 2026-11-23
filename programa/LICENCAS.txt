@@ -1,0 +1,19 @@
+GW Apps Edition Videos
+© 2026 GW Apps Solutions, LLC. Todos os direitos reservados.
+O código deste programa (app.py, editor.py, trilhas.py e painel) é da GW Apps Solutions.
+
+Componentes de terceiros usados pelo programa:
+
+- Fontes (pasta "fontes"): Montserrat, Poppins, Inter, Lora, Anton, Bebas Neue e Noto Color Emoji.
+  Todas sob a SIL Open Font License 1.1 (https://openfontlicense.org): podem ser usadas e
+  redistribuídas livremente, inclusive em vídeos comerciais.
+
+- Leitor de fala: modelo NVIDIA Parakeet TDT 0.6B v3 (licença CC BY 4.0), na versão
+  convertida pelo projeto sherpa-onnx (k2-fsa, licença Apache 2.0). Baixado na instalação.
+
+- ffmpeg: baixado na instalação pelo pacote static-ffmpeg (licenças LGPL/GPL do projeto FFmpeg).
+
+- Pacotes Python: numpy (BSD), Pillow (MIT-CMU), sherpa-onnx (Apache 2.0), static-ffmpeg (MIT).
+
+- Trilhas de fundo do programa: sintetizadas por código no momento da edição, sem samples
+  nem gravações de terceiros. Podem ser usadas em qualquer vídeo, inclusive anúncios.

@@ -1,0 +1,33 @@
+#!/bin/bash
+
+APP_DIR="$(cd "$(dirname "$0")/../../.." && pwd)"
+PROGRAMA="$APP_DIR/programa"
+PYTHON="$PROGRAMA/.venv-mac/bin/python"
+PIDFILE="$PROGRAMA/.gw-app.pid"
+LOGFILE="$PROGRAMA/gw-app.log"
+URL="http://127.0.0.1:8790"
+
+if curl -fsS --max-time 1 "$URL" >/dev/null 2>&1; then
+  open "$URL"
+  exit 0
+fi
+
+if [ ! -x "$PYTHON" ]; then
+  osascript -e 'display alert "GW Apps Edition Videos" message "A instalação interna não foi encontrada. Abra o iniciador de instalação que está na pasta do aplicativo." as critical'
+  exit 1
+fi
+
+cd "$PROGRAMA" || exit 1
+nohup env GW_SEM_NAVEGADOR=1 "$PYTHON" app.py >>"$LOGFILE" 2>&1 </dev/null &
+echo $! >"$PIDFILE"
+
+for _ in $(seq 1 30); do
+  if curl -fsS --max-time 1 "$URL" >/dev/null 2>&1; then
+    open "$URL"
+    exit 0
+  fi
+  sleep 1
+done
+
+osascript -e 'display alert "GW Apps Edition Videos" message "O aplicativo não conseguiu iniciar. Consulte o arquivo gw-app.log na pasta programa." as critical'
+exit 1

@@ -1,0 +1,4 @@
+Coloque aqui suas músicas (MP3, WAV, M4A, AAC, OGG ou FLAC) para usar como fundo dos vídeos.
+Depois recarregue a página do editor: elas aparecem em "Suas músicas".
+Use só músicas que você tem direito de usar (sem direitos autorais ou licenciadas).
+Se não colocar nenhuma, o editor usa as trilhas geradas pelo próprio programa.

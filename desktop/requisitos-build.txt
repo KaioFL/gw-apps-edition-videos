@@ -1,0 +1,6 @@
+numpy>=2.0
+pillow>=11
+sherpa-onnx==2.0.2
+static-ffmpeg>=3.0
+pywebview>=6.2,<7
+pyinstaller>=6.22,<7

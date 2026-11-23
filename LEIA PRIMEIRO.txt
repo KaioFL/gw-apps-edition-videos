@@ -1,0 +1,44 @@
+GW APPS EDITION VIDEOS — INSTALAÇÃO
+====================================
+
+Este pacote está limpo: não contém vídeos, projetos, avatares, prévias,
+histórico ou pastas pessoais de outro usuário.
+
+
+NO MAC
+------
+1. Extraia o arquivo .zip inteiro. Não abra o programa de dentro do .zip.
+2. Na primeira vez, abra "Abrir GW Apps Edition Videos no Mac.command".
+3. Se o macOS bloquear, clique com o botão direito no arquivo, escolha "Abrir"
+   e confirme. A primeira preparação baixa o Python e as dependências do editor.
+4. Deixe a janela do Terminal aberta enquanto usa o editor.
+5. Depois da primeira instalação, também é possível abrir
+   "GW Apps Edition Videos.app".
+
+
+NO WINDOWS
+----------
+1. Extraia o arquivo .zip inteiro. Não abra o programa de dentro do .zip.
+2. Abra "Abrir GW Apps Edition Videos.bat".
+3. A primeira preparação instala as dependências. Se for solicitado, instale
+   Python 3.10 a 3.14, marque "Add python.exe to PATH" e abra o arquivo novamente.
+4. Deixe a janela preta aberta enquanto usa o editor.
+
+
+ONDE FICAM OS ARQUIVOS
+----------------------
+- Vídeos adicionados e projetos: pasta "Meus videos".
+- Vídeos finalizados: pasta "Meus videos/_Prontos".
+- Avatares criados no painel: pasta "programa/avatares".
+- Músicas próprias: pasta "programa/musicas".
+
+Cada pessoa cria seus próprios vídeos, pastas e avatares localmente.
+Os ajustes de edição fornecidos neste pacote já vêm configurados.
+
+
+IMPORTANTE
+----------
+- Mantenha todos os arquivos e pastas juntos.
+- A primeira abertura precisa de internet para instalar as dependências.
+- O processamento dos vídeos acontece no próprio computador.
+- Consulte "COMO USAR.txt" para o manual completo.

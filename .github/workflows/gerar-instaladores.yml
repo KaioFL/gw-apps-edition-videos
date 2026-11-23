@@ -1,0 +1,84 @@
+# Gera os instaladores do Windows (.exe) e do Mac (.dmg) nos computadores do GitHub.
+# Como usar: aba "Actions" > "Gerar instaladores" > "Run workflow".
+# Os arquivos ficam em "Artifacts" no fim da execução. Criando uma tag "v1.6" (por exemplo),
+# eles também são publicados numa página de Release.
+name: Gerar instaladores
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Leitor de fala (cache)
+        uses: actions/cache@v4
+        with:
+          path: programa/modelos
+          key: modelo-parakeet-tdt-0.6b-v3-int8
+      - name: Inno Setup
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe")) { choco install innosetup -y --no-progress }
+      - name: Gerar
+        shell: pwsh
+        env:
+          GW_PYTHON: python
+        run: ./desktop/build_windows.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Windows
+          path: desktop/saida/*
+          compression-level: 0
+
+  mac:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-14          # Apple Silicon (M1, M2, M3, M4...)
+            nome: Mac-AppleSilicon
+          - runner: macos-15-intel    # Macs com processador Intel
+            nome: Mac-Intel
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Leitor de fala (cache)
+        uses: actions/cache@v4
+        with:
+          path: programa/modelos
+          key: modelo-parakeet-tdt-0.6b-v3-int8
+      - name: Gerar
+        env:
+          GW_PYTHON: python
+          GW_MAC_ASSINATURA: ${{ secrets.GW_MAC_ASSINATURA }}
+        run: bash desktop/build_mac.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.nome }}
+          path: desktop/saida/*.dmg
+          compression-level: 0
+
+  publicar:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [windows, mac]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: instaladores
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: instaladores/*

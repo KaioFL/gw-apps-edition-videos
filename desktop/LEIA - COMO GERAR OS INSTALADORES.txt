@@ -1,0 +1,68 @@
+COMO GERAR OS INSTALADORES (Windows e Mac)
+==========================================
+Esta pasta transforma o editor num aplicativo de verdade: abre numa janela própria
+(sem navegador e sem janela preta) e já traz Python, ffmpeg e o leitor de fala dentro.
+Quem recebe só instala e usa: não precisa de Python nem de internet.
+
+O que tem aqui
+  gw_desktop.py            o aplicativo de janela (abre o editor da pasta "programa")
+  gw_desktop.spec          receita do PyInstaller (o que vai dentro do aplicativo)
+  preparar_build.py        junta o ffmpeg, o leitor de fala e gera os ícones
+  gerar_icones.py          ícones a partir de programa/marca/logo.png
+  instalador_windows.iss   instalador do Windows (Inno Setup)
+  build_windows.ps1        gera tudo no Windows
+  build_mac.sh             gera tudo no Mac
+  saida/                   onde ficam os instaladores prontos
+
+
+NO WINDOWS (gera o instalador .exe)
+  1. Precisa do Python 3.12 ou 3.13 e do Inno Setup 6 (https://jrsoftware.org/isdl.php).
+     Sem o Inno Setup, gera só a versão portátil (.zip).
+  2. No PowerShell, dentro desta pasta:
+         .\build_windows.ps1              (instalador)
+         .\build_windows.ps1 -Portatil    (instalador + .zip portátil)
+  3. Resultado em "saida". Leva uns 5 minutos.
+
+
+NO MAC (gera o .dmg) — precisa ser feito num Mac
+  1. Precisa do Python 3.12 (python.org) e das ferramentas de linha de comando
+     (no Terminal: xcode-select --install).
+  2. No Terminal, dentro desta pasta:   bash build_mac.sh
+  3. Resultado em "saida". O .dmg sai para o tipo de Mac em que foi gerado:
+     num Mac com chip Apple sai "AppleSilicon"; num Mac Intel sai "Intel".
+
+
+SEM TER UM MAC: PELO GITHUB (gera os dois de uma vez)
+  1. Coloque esta pasta inteira num repositório do GitHub (pode ser privado).
+     O arquivo .gitignore já deixa de fora o leitor de fala e os vídeos (o build baixa sozinho).
+  2. No site do GitHub: aba "Actions" > "Gerar instaladores" > "Run workflow".
+  3. Em uns 15 minutos, no fim da execução, em "Artifacts", ficam:
+     Windows (instalador .exe), Mac-AppleSilicon (.dmg) e Mac-Intel (.dmg).
+  Criando uma tag de versão (ex.: v1.6), eles também saem publicados numa página de "Release".
+
+
+AVISOS DE SEGURANÇA (programa sem assinatura digital)
+  - Windows: aparece "O Windows protegeu o computador" > "Mais informações" > "Executar assim mesmo".
+    Para tirar o aviso, é preciso um certificado de assinatura de código (pago, por ano).
+  - Mac: o macOS pede "Abrir Mesmo Assim" em Ajustes do Sistema > Privacidade e Segurança.
+    Para tirar o aviso, é preciso a conta Apple Developer (US$ 99/ano). Com ela:
+        GW_MAC_ASSINATURA="Developer ID Application: Empresa (TEAMID)" \
+        GW_MAC_NOTARIZAR_PERFIL="perfil" bash build_mac.sh
+    (o perfil é criado uma vez com: xcrun notarytool store-credentials)
+
+
+VERSÃO
+  O número da versão vem de VERSAO em programa/app.py. Mude lá antes de gerar uma versão nova.
+  Instalar uma versão nova por cima mantém os vídeos e os ajustes de quem usa.
+
+
+ONDE O APLICATIVO GUARDA AS COISAS DE QUEM USA
+  Vídeos e músicas:  Windows: Vídeos\GW Apps Edition Videos     Mac: Filmes/GW Apps Edition Videos
+  Ajustes e prévias: Windows: %LOCALAPPDATA%\GW Apps Edition Videos
+                     Mac: ~/Library/Application Support/GW Apps Edition Videos
+  Os ajustes de edição de "programa/config.json" são o ponto de partida de quem instala.
+
+
+TESTAR SEM GERAR O INSTALADOR
+  Com o ambiente de build criado:  .venv-build\Scripts\python.exe gw_desktop.py   (Mac: .venv-build/bin/python)
+  Abre a janela usando direto os arquivos da pasta "programa".

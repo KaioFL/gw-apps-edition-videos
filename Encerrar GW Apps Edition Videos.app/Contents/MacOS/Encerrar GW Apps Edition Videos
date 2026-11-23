@@ -1,0 +1,18 @@
+#!/bin/bash
+
+APP_DIR="$(cd "$(dirname "$0")/../../.." && pwd)"
+PROGRAMA="$APP_DIR/programa"
+PIDFILE="$PROGRAMA/.gw-app.pid"
+
+if [ -f "$PIDFILE" ]; then
+  PID="$(cat "$PIDFILE" 2>/dev/null || true)"
+  if [[ "$PID" =~ ^[0-9]+$ ]] && kill -0 "$PID" 2>/dev/null; then
+    COMANDO="$(ps -p "$PID" -o command= 2>/dev/null || true)"
+    if [[ "$COMANDO" == *"$PROGRAMA/app.py"* ]] || [[ "$COMANDO" == *" app.py"* ]]; then
+      kill "$PID"
+    fi
+  fi
+  rm -f "$PIDFILE"
+fi
+
+osascript -e 'display notification "Aplicativo encerrado." with title "GW Apps Edition Videos"'

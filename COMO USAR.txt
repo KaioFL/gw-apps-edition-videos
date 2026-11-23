@@ -1,0 +1,209 @@
+GW APPS EDITION VIDEOS — editor automático de vídeos (Windows e Mac)
+===================================================================
+Legenda palavra por palavra, corte de silêncios, zoom, música de fundo, headline, CTA e setas.
+Roda no seu computador, sem custo por vídeo e sem enviar nada para a internet.
+
+
+INSTALAR
+  Windows:
+    1. Dê dois cliques no instalador "GW-Apps-Edition-Videos-...-Instalador-Windows.exe".
+       Se o Windows mostrar "O Windows protegeu o computador", clique em
+       "Mais informações" e depois em "Executar assim mesmo".
+    2. Avance as telas. Não pede senha de administrador.
+    3. No fim, o editor abre sozinho. Fica um atalho na Área de Trabalho e no Menu Iniciar.
+    (Versão portátil, sem instalar: extraia o .zip e abra "GW Apps Edition Videos.exe".
+     Na primeira vez ele mesmo cria os atalhos na Área de Trabalho e no Menu Iniciar.)
+
+  Mac:
+    1. Abra o arquivo .dmg e arraste o "GW Apps Edition Videos" para a pasta Aplicativos.
+    2. Abra pela pasta Aplicativos ou pelo Launchpad.
+       Se o Mac não deixar abrir: Ajustes do Sistema > Privacidade e Segurança >
+       "Abrir Mesmo Assim". Só precisa fazer isso uma vez.
+    Use o .dmg certo: "AppleSilicon" para Macs com chip M1/M2/M3/M4, "Intel" para os outros.
+
+  Não precisa instalar Python nem mais nada: tudo já vem dentro do aplicativo
+  (inclusive o leitor de fala). Não precisa de internet para editar.
+
+
+NO DIA A DIA
+  Clique no ícone do GW Apps Edition Videos (Área de Trabalho, Menu Iniciar, Dock ou Launchpad).
+  O editor abre na janela dele, sem navegador e sem janela preta.
+  Para fechar, feche a janela. Se tiver vídeo sendo editado, ele pergunta antes de fechar.
+  Clicou no ícone com o editor já aberto? Ele só traz a janela para a frente.
+
+
+ONDE FICAM OS ARQUIVOS
+  Windows: pasta Vídeos > GW Apps Edition Videos
+  Mac:     pasta Filmes > GW Apps Edition Videos
+    - "Meus videos": vídeos adicionados e projetos
+    - "Meus videos\_Prontos": vídeos finalizados (botão "Vídeos prontos", no pé do menu da esquerda)
+    - "Meus videos\_Entrada": pasta de entrada (o que você jogar aqui entra sozinho; veja AUTOMAÇÃO)
+    - "Minhas musicas": suas músicas MP3
+  Os botões "Abrir pasta" do painel abrem cada uma dessas pastas.
+  Atualizar ou desinstalar o programa não apaga seus vídeos.
+
+
+COMO EDITAR
+  1. Clique em "+ Novo vídeo" (ou arraste os arquivos para a janela). Na janela que abre:
+     - escolha os arquivos (ou uma pasta);
+     - diga se são "Vídeos diferentes" ou "Cenas de um vídeo só" (o programa já sugere sozinho);
+     - escolha de qual avatar é o vídeo;
+     - se quiser, dê um nome e escreva a headline;
+     - deixe "Editar assim que enviar" ligado para ele já ir para a fila.
+     "Vídeos diferentes" = cada arquivo vira um vídeo. "Cenas de um vídeo só" = as cenas (por exemplo,
+     as do Flow) viram UM vídeo, na ordem do primeiro número do nome (cena 1, cena 2, cena 3…).
+  2. No painel "Estilo da edição", à direita (botão "Estilo" se estiver escondido), ligue o que quiser: Legenda, Cortar silêncios, Música de fundo, Headline, CTA.
+     Em "Ritmo" você escolhe a velocidade (1,10×, 1,20×…, a voz não fica fina) e o zoom.
+     Para vídeo inteiro de alguém falando, use o zoom "Pulo": a cada frase a imagem aproxima e volta.
+  3. O botão roxo "Editar os pendentes" manda para a fila todos os vídeos da lista que ainda não foram
+     editados. Se você marcar alguns vídeos, ele vira "Editar N marcados". Eles entram numa fila, que aparece no canto de baixo da janela.
+     Quando a fila termina, o programa toca um aviso.
+  4. Os vídeos prontos ficam todos juntos na pasta "Meus videos\_Prontos"
+     (botão "Vídeos prontos", no pé do menu da esquerda).
+
+
+ORGANIZAR POR AVATAR
+  No menu da esquerda, em AVATARES, cada avatar é uma pasta. Clique nela para ver só os vídeos dele:
+  no topo aparece a foto (clique para trocar), o nome (clique para renomear), quantos vídeos estão
+  prontos e o estilo que os vídeos dele usam.
+  - Para mudar vídeos de avatar: arraste o vídeo (ou os marcados) para o avatar no menu da esquerda,
+    ou marque e use "Mover para…" na barra que aparece embaixo.
+  - "Sem avatar" mostra os vídeos que ainda não estão em nenhuma pasta.
+  - As abas Todos / Para editar / Na fila / Prontos / Com erro filtram a lista; o campo ao lado
+    procura pelo número ou pela headline.
+  - Com vídeos marcados aparece uma barra embaixo: Editar, Mover para…, Marcar todos, Remover.
+
+
+POSTAGENS (INSTAGRAM E FACEBOOK)
+  Cada vídeo pronto tem dois ícones: Instagram e Facebook. Clique no ícone depois de postar:
+  ele fica colorido e guarda o dia e a hora (passe o mouse em cima para ver). Clique de novo para desmarcar.
+  - "Postagens", no menu da esquerda, mostra avatar por avatar quantos vídeos prontos já foram
+    para cada rede e quais ainda faltam. O número ao lado é quantos vídeos faltam postar.
+    "Marcar todos…" marca de uma vez todos os que faltam daquele avatar.
+  - Dentro da pasta de um avatar, o topo mostra Instagram x/y e Facebook x/y.
+  - A aba "Falta postar", em cima da lista, mostra só os prontos que ainda não foram para as duas redes.
+  - Marcou vários vídeos? Use "Postado em…" na barra de baixo.
+  - Reeditar um vídeo não apaga onde ele já foi postado.
+
+
+GUARDAR OS VÍDEOS NUM SSD OU HD EXTERNO
+  Configurações (no pé do menu da esquerda) > "Onde salvar os vídeos" > "Escolher outra pasta…".
+  Escolha a pasta no SSD. O programa pergunta se deve levar os vídeos que você já tem:
+  - "Sim, levar tudo": copia vídeos, prontos e transcrições para o SSD, confere a cópia e só então
+    apaga a pasta antiga. Se faltar espaço ou der erro no meio, ele desfaz e não apaga nada.
+  - "Não, começar vazia": a pasta nova começa vazia; os vídeos antigos ficam onde estavam.
+  Ali também aparece quanto espaço livre tem no disco.
+  SSD desconectado? O programa avisa ("A pasta dos vídeos não está disponível"), não cria nada
+  no lugar dele e volta ao normal quando você conecta e clica em "Tentar de novo".
+  No Mac, prefira um SSD formatado em APFS ou exFAT.
+
+
+APAGAR DEPOIS DE POSTAR (PARA NÃO LOTAR O DISCO)
+  Configurações > "Depois de postar" > ligue "Apagar o vídeo depois de postado". Você escolhe:
+  - quando apagar: depois de postado no Instagram E no Facebook, ou em qualquer uma das redes;
+  - o que apagar: tudo (cenas e vídeo pronto) ou só as cenas e arquivos de edição (o pronto fica
+    em _Prontos).
+  Ao marcar a postagem, aparece um aviso "vai ser apagado em 12 s" com o botão Desfazer.
+  Depois disso o vídeo some de vez (não vai para a Lixeira) e entra no histórico: a tela
+  Postagens mostra quantos foram postados e apagados e quanto espaço foi liberado
+  ("Ver histórico"). Vídeos que já estavam postados antes de ligar a opção só são apagados se
+  você clicar em "Apagar agora os N vídeos já postados".
+
+
+ESTILOS SALVOS
+  Montou um jeito de editar que gostou (legenda, música, headline, CTA…)? No painel "Estilo da edição",
+  clique em "Salvar…" e dê um nome. Depois é só escolher o estilo na lista para usar de novo.
+  Cada pasta de avatar pode ter o próprio estilo: abra a pasta e escolha o estilo na lista
+  (ou em Automação > "Estilo de cada avatar"). Os vídeos dessa pasta saem sempre com esse estilo,
+  mesmo quando você edita vários avatares de uma vez. Com a pasta aberta, o que você mudar nos
+  ajustes fica salvo no estilo dela. Pastas com estilo próprio têm um pontinho roxo no menu.
+
+
+AUTOMAÇÃO (botão "Configurações", no pé do menu da esquerda)
+  - Pasta de entrada: jogue vídeos na pasta "Meus videos\_Entrada" e eles entram sozinhos
+    (com o programa aberto), alguns segundos depois de terminar de copiar:
+      _Entrada\video.mp4                    -> vídeo novo, sem pasta
+      _Entrada\Ana\video.mp4                -> vídeo da pasta "Ana" (criada se não existir)
+      _Entrada\Ana\Treino de pernas\*.mp4   -> UM vídeo da Ana feito com essas cenas, na ordem dos números
+    Serve para baixar direto do Flow, do Google Drive ou do celular para essa pasta.
+  - Editar sozinho: com isso ligado, todo vídeo que chega (pela pasta de entrada ou pelo botão
+    Adicionar) já vai direto para a fila de edição, com o estilo da pasta dele.
+  - Quando a fila terminar: tocar um aviso e/ou abrir a pasta dos prontos.
+
+
+ATALHOS
+  Ctrl+K (ou /)  busca: acha qualquer vídeo (pelo número, avatar ou headline), pasta ou ação
+  Ctrl+O         adicionar vídeos inteiros
+  Ctrl+A         marcar todos os vídeos da lista
+  Ctrl+E         editar os marcados
+  Ctrl+,         mostrar ou esconder o painel de ajustes
+  Esc            desmarcar tudo
+  Botão direito numa pasta de avatar do menu: renomear, capa, estilo, abrir os prontos, apagar.
+
+
+DICAS
+  - Cortar silêncios: corta o silêncio e os barulhos baixos entre as falas, sem comer o finzinho
+    das palavras. Em "Ajuste fino", a "Força do corte" para a direita corta mais.
+    Mudou algum ajuste? É só editar o vídeo de novo: o corte é refeito a partir do original.
+  - Revisar cortes: mostra a onda do áudio de cada cena. Arraste para cortar um trecho,
+    clique no vermelho para manter e arraste a borda do vermelho para ajustar o corte.
+    Ctrl + rolar o mouse em cima da onda (ou os botões + e −) dá zoom; a barrinha embaixo
+    anda pela onda; "Ver tudo" volta. Cena revisada aqui fica exatamente como você deixou
+    (os ajustes automáticos não mexem mais nela). "Voltar ao original" desfaz.
+  - Legenda (botão no cartão do vídeo): mostra o texto de cada cena para corrigir. Troque,
+    apague ou acrescente palavras e clique em "Salvar e refazer o vídeo". O campo
+    "Trocar ... por ..." troca uma palavra em todas as cenas de uma vez.
+  - Correções automáticas (no bloco Legenda, no painel de ajustes): uma por linha, "errado = certo",
+    por exemplo "Blemp = Glempy". Vale para todos os vídeos.
+  - Avatares (no menu da esquerda): pastas para separar os vídeos de cada avatar. Clique no "+"
+    ao lado de AVATARES e use o nome do avatar. Clicando na pasta, você vê e edita só os vídeos dele;
+    vídeo adicionado com a pasta aberta já entra nela. Os prontos saem separados em
+    "_Prontos\Nome do avatar". Para organizar vídeos que já estão no programa: abra
+    "Todos os vídeos", marque os vídeos e clique em "Mover para…" (ou troque o campo
+    "Pasta do avatar" no cartão). No "⋯" da pasta dá para renomear, colocar uma capa e apagar
+    (apagar a pasta não apaga os vídeos).
+  - Cartões ou Lista: os botões em cima dos vídeos (e em cima das pastas) trocam a forma de ver.
+    Na lista, "Detalhes" abre o vídeo e os campos dele ali mesmo.
+  - CTA: ligue o bloco "CTA" no painel de ajustes (fonte, cor, faixa e altura, igual à headline) e escreva
+    o texto no cartão do vídeo. Sem hora marcada, ele entra alguns segundos antes do fim.
+  - CTA e setas (botão no cartão do vídeo editado): mostra o vídeo pronto com uma linha do tempo.
+    Marque quando o CTA aparece e some (campos ou "Agora"), e adicione setas: 5 modelos
+    (grossa, curva, duplas, desenhada à mão e mãozinha), 8 direções, cor, tamanho e movimento
+    (parada, balançando ou piscando). Arraste a seta em cima do vídeo para mudar o lugar e
+    arraste as faixas da linha do tempo para mudar quando entram e saem. Seta adicionada com
+    o CTA na tela já entra junto com ele ("Mesma hora do CTA" faz isso depois também).
+    "Salvar e aplicar no vídeo" coloca tudo em menos de um minuto, sem refazer cortes e legenda.
+  - Cenas repetidas (o mesmo take gerado duas vezes) saem sozinhas.
+  - Vídeos de celular em 4K saem em 1080×1920, que é o tamanho das redes (e edita bem mais rápido).
+  - Cenas deitadas num vídeo em pé (ou o contrário) são cortadas para preencher a tela.
+  - Transcrever (no menu da esquerda): transforma qualquer MP3/MP4 em texto e legenda .srt.
+  - Suas músicas: coloque os MP3 na pasta "Minhas musicas" (botão "pasta de músicas" no painel)
+    (se não aparecerem na lista em alguns segundos, feche e abra o editor).
+    Use só músicas que você tem direito de usar.
+    As trilhas do programa são geradas por código e não têm direitos autorais.
+  - Logo: no painel, clique em "pasta da marca" e coloque lá um "logo.png" para trocar a logo.
+
+
+ATUALIZAR PARA UMA VERSÃO NOVA
+  É só rodar o instalador novo: ele substitui o programa antigo e mantém seus vídeos, avatares,
+  estilos e ajustes (eles ficam fora da pasta do programa).
+  Se no computador ainda existir a versão antiga em pasta (a que abria pelo "Abrir GW Apps Edition
+  Videos.bat" ou ".command"), na primeira vez que o aplicativo abrir ele traz sozinho os vídeos,
+  os prontos, os avatares (com as fotos), as transcrições e os ajustes dela, e deixa um aviso na
+  pasta antiga. Ela fica marcada como substituída e pode ser apagada.
+
+
+DEU ERRO?
+  - Feche o editor e abra de novo.
+  - Continua? Abra o "Registro técnico", no fim da lista de vídeos, e mande um print para o suporte.
+    O registro completo fica no arquivo gw-app.log:
+      Windows: %LOCALAPPDATA%\GW Apps Edition Videos\logs   (cole esse endereço no Explorador)
+      Mac:     ~/Library/Application Support/GW Apps Edition Videos/logs
+  - Para reinstalar, rode o instalador de novo (seus vídeos e ajustes continuam).
+
+
+VERSÃO ANTIGA (PASTA COM INICIADOR)
+  A pasta com "Abrir GW Apps Edition Videos.bat" (Windows) e "Abrir GW Apps Edition Videos no Mac.command"
+  continua funcionando do jeito de antes: ela usa as pastas "Meus videos" e "programa\musicas"
+  dela mesma. Para o aplicativo novo enxergar os vídeos antigos, no painel troque a pasta dos
+  vídeos (campo da pasta, ao lado de "Abrir pasta") para a pasta "Meus videos" antiga.

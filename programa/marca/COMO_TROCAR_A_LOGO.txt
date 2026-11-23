@@ -1,0 +1,3 @@
+A logo do painel é o arquivo logo.png desta pasta (símbolo GW com fundo transparente).
+Para trocar, substitua o logo.png por outro (fundo transparente, de preferência) e recarregue a página.
+Se apagar o logo.png, o painel usa a logo.svg desta pasta.
