@@ -23,7 +23,7 @@ import trilhas  # noqa: E402
 import atualizador  # noqa: E402
 
 NOME_APP = "GW Apps Edition Videos"
-VERSAO = "2.2"
+VERSAO = "2.3"
 PORTA = int(os.environ.get("GW_PORTA", "8790"))
 # BASE = arquivos do programa (no aplicativo instalado é só leitura).
 # DADOS = ajustes, estado, prévias e avatares de quem usa. Rodando pela pasta (iniciadores .bat/.command)

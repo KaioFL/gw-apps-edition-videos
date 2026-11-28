@@ -15,8 +15,8 @@ import threading
 import time
 import urllib.request
 
-# repositório público só com os instaladores (o código fica no repositório privado)
-REPO = os.environ.get("GW_ATUALIZACOES_REPO", "KaioFL/gw-apps-edition-videos-atualizacoes")
+# repositório público do app: as versões novas ficam em "Releases" (o workflow publica ao criar a tag vX.Y)
+REPO = os.environ.get("GW_ATUALIZACOES_REPO", "KaioFL/gw-apps-edition-videos")
 API = os.environ.get("GW_ATUALIZACOES_API", "https://api.github.com")
 AGENTE = {"User-Agent": "GWAppsEditionVideos-atualizador", "Accept": "application/vnd.github+json"}
 INTERVALO = 6 * 3600
