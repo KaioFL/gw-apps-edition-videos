@@ -3,7 +3,7 @@
 
 #define AppName "GW Apps Edition Videos"
 #ifndef AppVersion
-  #define AppVersion "2.1"
+  #define AppVersion "2.2"
 #endif
 
 [Setup]
@@ -52,3 +52,11 @@ Name: "{autodesktop}\{#AppName}"; Filename: "{app}\{#AppName}.exe"; Comment: "Ed
 
 [Run]
 Filename: "{app}\{#AppName}.exe"; Description: "Abrir o {#AppName} agora"; Flags: nowait postinstall skipifsilent
+; atualização automática (instalador rodado pelo próprio app com /ABRIR=1): abre a versão nova no fim
+Filename: "{app}\{#AppName}.exe"; Flags: nowait; Check: AbrirDepois
+
+[Code]
+function AbrirDepois: Boolean;
+begin
+  Result := ExpandConstant('{param:ABRIR|0}') = '1';
+end;

@@ -57,7 +57,7 @@ a = Analysis(
     pathex=[PROG],
     binaries=binaries,
     datas=datas,
-    hiddenimports=s_hidden + ["app", "editor", "trilhas"],
+    hiddenimports=s_hidden + ["app", "editor", "trilhas", "atualizador"],
     excludes=["tkinter", "static_ffmpeg", "matplotlib", "IPython", "pytest", "PyQt5", "PyQt6", "PySide2", "PySide6",
               "gi", "cefpython3", "sherpa_onnx.cli"],
     noarchive=False,

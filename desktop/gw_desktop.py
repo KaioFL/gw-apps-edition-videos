@@ -165,7 +165,7 @@ def fechar_filhos_junto():
         k32.AssignProcessToJobObject.argtypes = [wintypes.HANDLE, wintypes.HANDLE]
         job = k32.CreateJobObjectW(None, None)
         info = Estendido()
-        info.Basico.LimitFlags = 0x2000          # JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE
+        info.Basico.LimitFlags = 0x2000 | 0x800  # KILL_ON_JOB_CLOSE + BREAKAWAY_OK (o instalador da atualização sai do grupo)
         k32.SetInformationJobObject(job, 9, ctypes.byref(info), ctypes.sizeof(info))
         if k32.AssignProcessToJobObject(job, k32.GetCurrentProcess()):
             _job = job
@@ -246,6 +246,18 @@ def abrir_janela(app, url, dados):
 
     app.ao_pedir_foco = trazer_para_frente
     app.ao_escolher_pasta = escolher_pasta
+
+    def sair_para_atualizar():
+        # a atualização baixou: fecha o app sem perguntar (o instalador/script abre a versão nova)
+        try:
+            janela.confirm_close = False
+            janela.destroy()
+        except Exception:
+            traceback.print_exc()
+        time.sleep(3)
+        os._exit(0)
+
+    app.ao_sair = sair_para_atualizar
     threading.Thread(target=vigiar_fila, daemon=True).start()
     webview.start(private_mode=False, storage_path=os.path.join(dados, "janela"),
                   debug=os.environ.get("GW_DEBUG") == "1")

@@ -193,6 +193,21 @@ ATUALIZAR PARA UMA VERSÃO NOVA
   pasta antiga. Ela fica marcada como substituída e pode ser apagada.
 
 
+LEVAR OS AVATARES E AJUSTES PARA OUTRO COMPUTADOR (EX.: DO WINDOWS PARA O MAC)
+  No computador de onde quer levar: Configurações > "Exportar configurações". Vai um arquivo
+  .gwconfig para a pasta Downloads (avatares com as fotos, estilos e todos os ajustes; os vídeos não).
+  Leve o arquivo para o outro computador e lá: Configurações > "Importar configurações…".
+  Avatares com o mesmo nome são atualizados (não duplicam).
+
+
+ATUALIZAÇÕES AUTOMÁTICAS
+  O app procura uma versão nova sozinho (ao abrir e a cada 6 horas). Quando tiver, aparece
+  "Versão X disponível" no menu da esquerda: clique em "Atualizar". Ele baixa, fecha, instala por
+  cima e abre de novo sozinho, no Windows e no Mac. Seus vídeos, avatares e ajustes continuam.
+  Também dá para procurar na hora em Configurações > Atualizações > "Procurar agora".
+  (Só funciona a partir da versão 2.2: quem está numa versão anterior instala a 2.2 uma vez.)
+
+
 DEU ERRO?
   - Feche o editor e abra de novo.
   - Continua? Abra o "Registro técnico", no fim da lista de vídeos, e mande um print para o suporte.

@@ -3,6 +3,7 @@ import os
 import re
 import sys
 import json
+import base64
 import hashlib
 import time
 import shutil
@@ -19,9 +20,10 @@ BASE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, BASE)
 import editor   # noqa: E402
 import trilhas  # noqa: E402
+import atualizador  # noqa: E402
 
 NOME_APP = "GW Apps Edition Videos"
-VERSAO = "2.1"
+VERSAO = "2.2"
 PORTA = int(os.environ.get("GW_PORTA", "8790"))
 # BASE = arquivos do programa (no aplicativo instalado é só leitura).
 # DADOS = ajustes, estado, prévias e avatares de quem usa. Rodando pela pasta (iniciadores .bat/.command)
@@ -469,6 +471,83 @@ def fazer_mover_raiz(nova, log):
             _apagar_vazias(os.path.join(velha, x))
     movendo.clear()
     log("Pronto: os vídeos agora ficam na pasta nova.")
+
+
+# ------------------------------------------------------------------ levar as configurações para outro computador
+TIPO_CONFIG = "gw-apps-edition-videos/config"
+
+
+def exportar_config():
+    av = []
+    for a in avatares():
+        x = {k: a[k] for k in ("id", "nome", "cor", "estilo") if k in a}
+        f = foto_avatar(a["id"])
+        if os.path.isfile(f):
+            with open(f, "rb") as fh:
+                x["foto_b64"] = base64.b64encode(fh.read()).decode()
+        av.append(x)
+    return {"tipo": TIPO_CONFIG, "versao": VERSAO, "criado": time.strftime("%Y-%m-%d %H:%M"), "avatares": av,
+            "estilos": cfg["estilos"], "opcoes": cfg["opcoes"], "silencio": cfg["silencio"],
+            "automacao": cfg["automacao"], "limpeza": cfg["limpeza"]}
+
+
+def importar_config(j):
+    """Junta as configurações de outro computador com as daqui (avatares pelo nome, estilos pelo id ou nome)."""
+    if not isinstance(j, dict) or j.get("tipo") != TIPO_CONFIG:
+        raise ValueError("Esse arquivo não é de configurações do GW Apps Edition Videos.")
+    for k, padrao in (("opcoes", editor.PADRAO), ("silencio", editor.PADRAO_SILENCIO),
+                      ("automacao", AUTOMACAO_PADRAO), ("limpeza", LIMPEZA_PADRAO)):
+        cfg[k].update({x: v for x, v in (j.get(k) or {}).items() if x in padrao})
+    ids_est = {}
+    for e in j.get("estilos") or []:
+        if not isinstance(e, dict) or not e.get("id") or not e.get("nome"):
+            continue
+        ops = {k: v for k, v in (e.get("opcoes") or {}).items() if k in editor.PADRAO}
+        ja = estilo_por_id(e["id"]) or next((x for x in cfg["estilos"] if x["nome"].lower() == str(e["nome"]).lower()), None)
+        if ja:
+            ja.update(nome=str(e["nome"])[:40], opcoes=ops)
+        else:
+            ja = {"id": re.sub(r"\W", "", str(e["id"]))[:20] or "es" + "".join(random.choice("0123456789abcdef") for _ in range(8)),
+                  "nome": str(e["nome"])[:40], "opcoes": ops}
+            cfg["estilos"].append(ja)
+        ids_est[e["id"]] = ja["id"]
+    novos = atualizados = 0
+    for a in j.get("avatares") or []:
+        nome = " ".join(str((a or {}).get("nome", "")).split())[:40]
+        if not nome_valido(nome):
+            continue
+        ja = next((x for x in avatares() if x["nome"].lower() == nome.lower()), None)
+        if ja:
+            atualizados += 1
+        else:
+            i = re.sub(r"\W", "", str(a.get("id", "")))[:20]
+            if not i or avatar_por_id(i):
+                i = "av" + "".join(random.choice("0123456789abcdef") for _ in range(8))
+            ja = {"id": i, "nome": nome, "pasta": pasta_livre_avatar(nome), "cor": CORES_AVATAR[len(avatares()) % len(CORES_AVATAR)]}
+            avatares().append(ja)
+            novos += 1
+        if re.fullmatch(r"#[0-9a-fA-F]{6}", str(a.get("cor", ""))):
+            ja["cor"] = a["cor"]
+        if a.get("estilo") in ids_est:
+            ja["estilo"] = ids_est[a["estilo"]]
+        if a.get("foto_b64"):
+            try:
+                foto = base64.b64decode(a["foto_b64"])
+                if foto[:3] == b"\xff\xd8\xff" and len(foto) < 8_000_000:
+                    os.makedirs(PASTA_AVATARES, exist_ok=True)
+                    with open(foto_avatar(ja["id"]), "wb") as fh:
+                        fh.write(foto)
+            except Exception:
+                pass
+    gravar_json(ARQ_CFG, cfg)
+    return {"novos": novos, "atualizados": atualizados, "estilos": len(ids_est)}
+
+
+def pasta_downloads():
+    for d in (os.path.join(os.path.expanduser("~"), "Downloads"), os.path.join(os.path.expanduser("~"), "Desktop")):
+        if os.path.isdir(d):
+            return d
+    return os.path.expanduser("~")
 
 
 def base_de(nome):
@@ -1213,7 +1292,7 @@ class Painel(BaseHTTPRequestHandler):
                              "log": fila["log"][-14:]},
                     "estilos": cfg["estilos"], "automacao": cfg["automacao"], "entrada": pasta_entrada(),
                     "migracao": migracao, "limpeza": cfg["limpeza"], "historico": resumo_historico(),
-                    "movendo": bool(movendo),
+                    "movendo": bool(movendo), "atualizacao": atualizador.resumo(),
                 }
             # o painel manda a marca da última resposta: se nada mudou, a resposta é só "igual" (bem mais leve)
             b = json.dumps(r, ensure_ascii=False).encode("utf-8")
@@ -1363,6 +1442,31 @@ class Painel(BaseHTTPRequestHandler):
                 threading.Thread(target=ao_pedir_foco, daemon=True).start()
                 return self._json({"ok": True})
             return self._json({"ok": False})
+        if p == "/api/atualizacao/verificar":
+            atualizador.verificar(VERSAO, forcar=True)
+            return self._json({"ok": True, "atualizacao": atualizador.resumo()})
+        if p == "/api/atualizacao/instalar":
+            if ocupado() or movendo:
+                return self._json({"ok": False, "erro": "Espere a fila de edição terminar para atualizar."}, 409)
+            ok = atualizador.instalar(ao_sair or (lambda: os._exit(0)))
+            return self._json({"ok": ok, "erro": "" if ok else "Não há atualização para instalar agora."})
+        if p == "/api/config/exportar":
+            nome = f"GW-configuracoes-{time.strftime('%Y-%m-%d')}.gwconfig"
+            arq = os.path.join(pasta_downloads(), nome)
+            with trava:
+                dados = exportar_config()
+            with open(arq, "w", encoding="utf-8") as fh:
+                json.dump(dados, fh, ensure_ascii=False)
+            abrir_no_sistema(arq, selecionar=True)
+            return self._json({"ok": True, "arquivo": arq, "avatares": len(dados["avatares"]), "estilos": len(dados["estilos"])})
+        if p == "/api/config/importar":
+            d = self._corpo()
+            try:
+                with trava:
+                    r = importar_config(d.get("config"))
+            except ValueError as ex:
+                return self._json({"ok": False, "erro": str(ex)}, 400)
+            return self._json({"ok": True, **r})
         if p == "/api/escolher-pasta":
             if not ao_escolher_pasta:
                 return self._json({"ok": False, "sem_dialogo": True})
@@ -1879,6 +1983,7 @@ class Painel(BaseHTTPRequestHandler):
 
 
 ao_escolher_pasta = None   # o aplicativo de janela troca por uma função que abre "Escolher pasta" do sistema
+ao_sair = None         # o aplicativo de janela troca por uma função que fecha a janela (para atualizar)
 ao_pedir_foco = None   # o aplicativo de janela troca por uma função que traz a janela para a frente
 
 
@@ -1894,6 +1999,7 @@ def iniciar_servidor():
     threading.Thread(target=trabalhador, daemon=True).start()
     threading.Thread(target=vigia, daemon=True).start()
     threading.Thread(target=migrar_versao_antiga, daemon=True).start()
+    threading.Thread(target=atualizador.vigiar, args=(VERSAO,), daemon=True).start()
     return srv
 
 

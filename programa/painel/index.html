@@ -820,6 +820,19 @@ body.tem-sel .apagar-toast{bottom:86px}
 .hl .rede{width:26px;height:26px;cursor:default}.hl .rede svg{width:14px;height:14px}
 .hq{color:var(--fraco);font-size:12px;text-align:right}
 @media(max-width:1100px){.presumo.cinco{grid-template-columns:repeat(2,1fr)}}
+
+/* ===================== 2.2: atualização e levar configurações ===================== */
+.atualiza{display:flex;flex-direction:column;gap:8px;margin:0 2px 8px;padding:11px 12px;border:1px solid rgba(139,92,246,.45);border-radius:12px;background:linear-gradient(135deg,rgba(139,92,246,.18),var(--sup));animation:entra .3s var(--suave)}
+.atualiza[hidden]{display:none}
+.at-tx b{display:block;font:650 13px var(--tit)}
+.at-tx small{color:var(--mut);font-size:12px}
+.atualiza .btn{width:100%}
+@media(max-width:1000px){.atualiza .at-tx{display:none}.atualiza{padding:6px}}
+.tela-atualizando{position:fixed;inset:0;z-index:200;display:none;place-items:center;text-align:center;background:rgba(9,9,11,.92)}
+body.atualizando .tela-atualizando{display:grid;animation:surge .3s}
+.tela-atualizando h2{margin:6px 0 6px;font:700 22px var(--tit)}
+.tela-atualizando p{margin:0;color:var(--mut)}
+.asec .lin .l b{color:var(--txt)}
 </style>
 </head>
 <body class="hl-on">
@@ -2630,6 +2643,62 @@ document.addEventListener('click',async e=>{const b=e.target.closest('[data-hist
  const a=filtro?avDe(filtro):null;$('hTitulo').textContent=a?`Histórico de ${a.nome}`:filtro===''?'Histórico · sem avatar':'Histórico de postagens';
  $('hCorpo').innerHTML=L.length?L.map(x=>{const av=avDe(x.avatar);return `<div class="hl"><div class="htx"><b>${esc(x.nome)}</b><small>${esc((x.headline||'').split('\n')[0]||'sem headline')}</small></div>${!a&&av?`<span class="avtag" style="--c:${esc(av.cor)}"><i ${av.foto?`style="background-image:url('${esc(av.foto)}')"`:''}></i>${esc(av.nome)}</span>`:'<span></span>'}<span class="redes">${REDES.map(([rr,nm])=>`<span class="rede ${rr} ${(x.postagens||{})[rr]?'on':''}" title="${(x.postagens||{})[rr]?'Postado no '+nm+' em '+dataPost(x.postagens[rr]):'Não postado no '+nm}">${ICO_REDE[rr]}</span>`).join('')}</span><small class="hq">apagado em ${esc(dataPost(x.apagado_em))}${x.pronto_mantido?' · pronto mantido':''}</small></div>`}).join(''):'<div class="pvazio">Nada por aqui ainda.</div>';
  hJ.classList.add('on');hJ.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'});
+
+</script>
+<script>
+"use strict";
+// ===================== 2.2: atualização automática e levar as configurações para outro computador =====================
+const ICO_SETA='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>';
+
+// ---------- aviso de versão nova no menu lateral
+const atBox=document.createElement('div');atBox.className='atualiza';atBox.id='atualiza';atBox.hidden=true;
+document.querySelector('.lado-pe').prepend(atBox);
+function atDesenha(){const a=S.atualizacao||{};let h='';
+ if(a.aplicando)h=`<div class="at-tx"><b>Instalando a versão ${esc(a.versao)}…</b><small>O app vai fechar e abrir sozinho.</small></div>`;
+ else if(a.baixando)h=`<div class="at-tx"><b>Baixando a versão ${esc(a.versao)}</b><small>${Math.round((a.progresso||0)*100)}%</small></div><span class="barrinha larga"><i style="width:${Math.round((a.progresso||0)*100)}%"></i></span>`;
+ else if(a.versao)h=`<div class="at-tx"><b>Versão ${esc(a.versao)} disponível</b><small>Você está na ${esc(S.versao||'')}</small></div><button class="btn p pri" data-atualizar="1">${ICO_SETA.replace('<svg','<svg class="ico"')}Atualizar</button>`;
+ if(atBox.dataset.h!==h){atBox.innerHTML=h;atBox.dataset.h=h}atBox.hidden=!h;
+ document.body.classList.toggle('atualizando',!!a.aplicando)}
+async function atInstalar(){const a=S.atualizacao||{};if(!a.versao)return;const f=S.fila||{};
+ if(f.atual||f.restantes){dlg('Espere a fila terminar',{texto:'Tem vídeo sendo editado agora. Quando a fila terminar, clique em Atualizar de novo.',cancelar:null});return}
+ const notas=(a.notas||'').trim();
+ if(!await dlg(`Atualizar para a versão ${a.versao}?`,{texto:`${notas?notas+'\n\n':''}O app baixa a versão nova (${a.tamanho?gb(a.tamanho):'uns 600 MB'}), fecha e abre de novo sozinho. Seus vídeos, avatares, estilos e ajustes continuam iguais.`,ok:'Atualizar agora'}))return;
+ const r=await api('/api/atualizacao/instalar',{});if(!r.ok){dlg(r.erro||'Não consegui começar a atualização.',{cancelar:null});return}
+ aviso('Baixando a atualização… dá para continuar usando enquanto isso.');avisoSome(5000);await carregar()}
+document.addEventListener('click',e=>{if(e.target.closest('[data-atualizar]')){e.preventDefault();atInstalar()}});
+const tela=document.createElement('div');tela.className='tela-atualizando';
+tela.innerHTML='<div><div class="gira g"></div><h2>Instalando a versão nova</h2><p>O GW Apps Edition Videos vai fechar e abrir de novo sozinho em alguns segundos.</p></div>';document.body.appendChild(tela);
+
+// ---------- Configurações: atualizações e levar para outro computador
+const inCfg=document.createElement('input');inCfg.type='file';inCfg.accept='.gwconfig,.json,application/json';inCfg.hidden=true;document.body.appendChild(inCfg);
+const _aDes21=aDesenha;aDesenha=function(){_aDes21();const a=S.atualizacao||{},nAv=(S.avatares||[]).length,nEs=(S.estilos||[]).length;
+ const st=!a.pode?'A atualização automática funciona no aplicativo instalado.':a.aplicando?'Instalando…':a.baixando?`Baixando… ${Math.round((a.progresso||0)*100)}%`:a.versao?`Versão ${esc(a.versao)} disponível.`:'Você está na versão mais nova.';
+ $('aCorpo').insertAdjacentHTML('beforeend',`
+ <section class="asec"><h3>Atualizações</h3><p>O app procura sozinho uma versão nova (ao abrir e a cada 6 horas) e avisa no menu da esquerda. Atualizar não apaga nada: é só clicar em <b>Atualizar</b>.</p>
+  <div class="lin"><span class="l">Versão instalada: <b>${esc(S.versao||'')}</b> · <span id="atStatus">${st}</span></span>
+  <span class="acoes">${a.versao&&!a.baixando?'<button class="btn p pri" data-atualizar="1">Atualizar</button>':''}<button class="btn p" data-cfg="procurar" ${a.pode?'':'disabled'}>Procurar agora</button></span></div></section>
+ <section class="asec"><h3>Levar para outro computador</h3><p>Leva os avatares (com as fotos), os estilos e todos os ajustes (legenda, música, headline, CTA, cortes, automação) para outro computador, por exemplo do Windows para o MacBook. Os vídeos não vão junto.</p>
+  <div class="acoes"><button class="btn p pri" data-cfg="exportar">Exportar configurações</button><button class="btn p" data-cfg="importar">Importar configurações…</button></div>
+  <div class="dica">Aqui: ${nAv} avatar${nAv===1?'':'es'} e ${nEs} estilo${nEs===1?'':'s'}. O arquivo exportado vai para a pasta Downloads; leve ele para o outro computador (pendrive, AirDrop, Google Drive) e use <b>Importar configurações…</b> lá.</div></section>`)};
+document.addEventListener('click',async e=>{const b=e.target.closest('[data-cfg]');if(!b)return;const k=b.dataset.cfg;
+ if(k==='procurar'){b.disabled=true;b.textContent='Procurando…';const r=await api('/api/atualizacao/verificar',{});S.atualizacao=r.atualizacao||S.atualizacao;
+  aviso(S.atualizacao&&S.atualizacao.versao?`Versão ${S.atualizacao.versao} disponível.`:'Você já está na versão mais nova.');avisoSome(3500);atDesenha();aDesenha();return}
+ if(k==='exportar'){b.disabled=true;const r=await api('/api/config/exportar',{});b.disabled=false;
+  if(!r.ok){dlg(r.erro||'Não consegui exportar.',{cancelar:null});return}
+  dlg('Configurações exportadas',{texto:`${r.avatares} avatar(es) e ${r.estilos} estilo(s) foram salvos em:\n${r.arquivo}\n\nLeve esse arquivo para o outro computador e, lá, abra Configurações > Importar configurações…`,cancelar:null});return}
+ if(k==='importar'){inCfg.value='';inCfg.click()}});
+inCfg.onchange=async()=>{const f=inCfg.files[0];if(!f)return;let j;
+ try{j=JSON.parse(await f.text())}catch(_){dlg('Esse arquivo não abriu',{texto:'Escolha o arquivo .gwconfig que você exportou no outro computador.',cancelar:null});return}
+ const nAv=(j.avatares||[]).length,nEs=(j.estilos||[]).length;
+ if(!await dlg('Importar estas configurações?',{texto:`${nAv} avatar(es) com fotos, ${nEs} estilo(s) e os ajustes de edição${j.criado?` (exportado em ${j.criado.split(' ')[0].split('-').reverse().join('/')})`:''}.\n\nAvatares com o mesmo nome são atualizados; os outros são criados. Os ajustes daqui são trocados pelos do arquivo. A pasta dos vídeos não muda.`,ok:'Importar'}))return;
+ const r=await api('/api/config/importar',{config:j});if(!r.ok){dlg(r.erro||'Não consegui importar.',{cancelar:null});return}
+ primeira=true;assinatura='';ladoAss='';await carregar();
+ aviso(`Pronto: ${r.novos} avatar(es) novo(s), ${r.atualizados} atualizado(s) e ${r.estilos} estilo(s).`);avisoSome(6000);if($('aJanela').classList.contains('on'))aDesenha()};
+
+// ---------- ganchos
+const _lado21=ladoDesenha;ladoDesenha=function(){_lado21();atDesenha()};
+ciclo=function(){clearTimeout(tCiclo);const f=S.fila||{},ocup=!!(f.atual||f.restantes),at=(S.atualizacao||{}).baixando;
+ const ms=at?800:document.hidden?(ocup?5000:20000):(ocup||enviando?1200:3000);tCiclo=setTimeout(()=>carregar().finally(ciclo),ms)};
 
 </script>
 </body>
